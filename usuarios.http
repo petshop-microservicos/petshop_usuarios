@@ -1,0 +1,44 @@
+@host = http://localhost:5000
+
+### Login (admin do seed)
+# @name login
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{ "email": "admin@petshop.local", "senha": "Admin@12345" }
+
+###
+@token = {{login.response.body.accessToken}}
+
+### Claims do token
+GET {{host}}/api/auth/me
+Authorization: Bearer {{token}}
+
+### Cadastrar usuário (RF01 + RF02)
+POST {{host}}/api/usuarios
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "nome": "Maria Silva", "email": "maria@petshop.local", "senha": "Senha@1234", "perfil": "Atendente" }
+
+### Listar (filtros opcionais)
+GET {{host}}/api/usuarios?ativo=true&perfil=Atendente
+Authorization: Bearer {{token}}
+
+### Editar
+PUT {{host}}/api/usuarios/{{id}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "nome": "Maria S. Souza", "email": "maria@petshop.local" }
+
+### Atribuir perfil (RF02)
+PUT {{host}}/api/usuarios/{{id}}/perfil
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "perfil": "Funcionario" }
+
+### Inativar (RF01)
+PATCH {{host}}/api/usuarios/{{id}}/inativar
+Authorization: Bearer {{token}}

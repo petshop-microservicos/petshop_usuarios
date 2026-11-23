@@ -1,0 +1,14 @@
+appsettings.Development.json
+appsettings.Local.json
+
+
+bin/
+obj/
+.vs/
+.idea/
+*.user
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
